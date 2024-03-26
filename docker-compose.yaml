@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # postgres:
+  #   image: postgres:latest
+  #   container_name: postgres
+  #   environment:
+  #     POSTGRES_DB: your_database_name
+  #     POSTGRES_USER: your_database_user
+  #     POSTGRES_PASSWORD: your_database_password
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+  config_service:
+    build:
+      context: ./config
+    container_name: configservice
+    ports:
+      - "8888:8081"
+    environment:
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: "https://github.com/dilipyes/config.git"
+
+  # backend_service_1:
+  #   build:
+  #     context: ./path_to_your_backend_service_1
+  #   container_name: backend_service_1
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - postgres
+  #     - config_service
+  #   environment:
+  #     SPRING_PROFILES_ACTIVE: docker
+
+  # backend_service_2:
+  #   build:
+  #     context: ./path_to_your_backend_service_2
+  #   container_name: backend_service_2
+  #   ports:
+  #     - "8081:8081"
+  #   depends_on:
+  #     - postgres
+  #     - config_service
+  #   environment:
+  #     SPRING_PROFILES_ACTIVE: docker
+
+  # frontend_service:
+  #   build:
+  #     context: ./path_to_your_angular_frontend
+  #   container_name: frontend_service
+  #   ports:
+  #     - "4200:4200"
+  #   environment:
+  #     SPRING_PROFILES_ACTIVE: docker
+
+volumes:
+  postgres_data:
